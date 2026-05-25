@@ -7,6 +7,6 @@ class UpdateHealthyRecipeIsFavoriteUseCase(
 ) {
 
     suspend operator fun invoke(id: String, isFavorite: Boolean) {
-        repository.updateIsFavorite(id, isFavorite)
+        repository.updateIsFavorite(id = id, isFavorite = isFavorite)
     }
 }

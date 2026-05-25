@@ -3,16 +3,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
     namespace = "com.rocketseat.RRM.tabelanutricional"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rocketseat.RRM.tabelanutricional"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -42,6 +43,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.compose.material3.lint)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -50,12 +52,28 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+
+    // Room Database
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Crypto for secure storage
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Coil for image loading
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

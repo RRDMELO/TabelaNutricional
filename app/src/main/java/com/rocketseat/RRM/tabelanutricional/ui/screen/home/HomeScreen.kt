@@ -39,7 +39,9 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUIState,
     onEvent: (HomeEvent) -> Unit,
-    onNavigateToDetails: (selectedHealthyRecipeId: String) -> Unit
+    onNavigateToDetails: (selectedHealthyRecipeId: String) -> Unit,
+    onNavigateToSearch: () -> Unit = {},
+    onLogout: () -> Unit = {}
 ) {
     LaunchedEffect(Unit) {
         onEvent(HomeEvent.OnInit)
@@ -59,7 +61,11 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier.padding(sizing.md)
                 ) {
-                    WelcomeHeader(userName = uiState.userName.orEmpty())
+                    WelcomeHeader(
+                        userName = uiState.userName.orEmpty(),
+                        onSearchClick = onNavigateToSearch,
+                        onLogoutClick = onLogout
+                    )
                     Spacer(modifier = Modifier.height(sizing.x2l))
                     Text(
                         text = stringResource(R.string.saude_em_foco),
@@ -142,3 +148,4 @@ private fun HomeScreenPreview() {
         )
     }
 }
+
