@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -33,7 +32,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,9 +52,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.rocketseat.RRM.tabelanutricional.data.model.SavedRecipe
 import org.koin.androidx.compose.koinViewModel
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 
 private val PrimaryGreen = Color(0xFF4CAF50)
-private val LightGreen = Color(0xFFC8E6C9)
 private val PrimaryBlue = Color(0xFF0099FF)
 
 @Composable
@@ -521,7 +520,7 @@ private fun RecipeSearchItem(
     recipe: SavedRecipe,
     onRecipeClick: () -> Unit = {}
 ) {
-    Log.d("RecipeSearchItem", "Loading recipe: ${recipe.name}, imageUrl: ${recipe.imageUrl}")
+    Log.d("RecipeSearchItem", "Loading recipe: ${recipe.name}, imageResId: ${recipe.imageResId}, imageUrl: ${recipe.imageUrl}")
 
     Box(
         modifier = Modifier
@@ -551,21 +550,38 @@ private fun RecipeSearchItem(
                     .border(1.dp, PrimaryBlue, shape = RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                if (!recipe.imageUrl.isNullOrEmpty()) {
-                    AsyncImage(
-                        model = recipe.imageUrl,
+                // Prioriza imageResId (local) em vez de imageUrl (remoto)
+                if (recipe.imageResId != null) {
+                    Image(
+                        painter = painterResource(id = recipe.imageResId),
                         contentDescription = recipe.name,
                         modifier = Modifier
                             .size(80.dp)
                             .clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Crop
                     )
-                } else {
-                    Log.d("RecipeSearchItem", "No image URL for: ${recipe.name}")
-                    Text(
-                        "🥗",
-                        fontSize = 36.sp
+                    Log.d("RecipeSearchItem", "✅ Loading local image from drawable for: ${recipe.name}")
+                } else if (!recipe.imageUrl.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = recipe.imageUrl,
+                        contentDescription = recipe.name,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(12.dp)),
+                        contentScale = ContentScale.Crop,
+                        onError = {
+                            Log.e("RecipeSearchItem", "❌ Error loading remote image for: ${recipe.name}")
+                        },
+                        onLoading = {
+                            Log.d("RecipeSearchItem", "⏳ Loading remote image for: ${recipe.name}")
+                        },
+                        onSuccess = {
+                            Log.d("RecipeSearchItem", "✅ Successfully loaded remote image for: ${recipe.name}")
+                        }
                     )
+                } else {
+                    Log.d("RecipeSearchItem", "No image available for: ${recipe.name}")
+                    RecipeImagePlaceholder()
                 }
             }
 
@@ -781,4 +797,23 @@ fun RecipeSearchScreenPreviewContent(mockRecipes: List<SavedRecipe>) {
     }
 }
 
-
+@Composable
+private fun RecipeImagePlaceholder(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .size(80.dp)
+            .background(
+                color = Color(0xFFF0F0F0),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .border(1.dp, PrimaryBlue, shape = RoundedCornerShape(12.dp)),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            "🥗",
+            fontSize = 36.sp
+        )
+    }
+}

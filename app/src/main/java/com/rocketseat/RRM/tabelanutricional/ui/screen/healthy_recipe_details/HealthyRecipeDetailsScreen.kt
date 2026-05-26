@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import com.rocketseat.RRM.tabelanutricional.R
 import com.rocketseat.RRM.tabelanutricional.data.model.HealthyRecipe
@@ -54,7 +53,6 @@ import com.rocketseat.RRM.tabelanutricional.ui.components.healthy_recipe_details
 import com.rocketseat.RRM.tabelanutricional.ui.screen.healthy_recipe_more_details.HealthyRecipeMoreDetailsScreen
 import com.rocketseat.RRM.tabelanutricional.ui.screen.home.HomeUIState
 import com.rocketseat.RRM.tabelanutricional.ui.theme.Primary
-import com.rocketseat.RRM.tabelanutricional.ui.theme.TabelaNutricionalTheme
 import com.rocketseat.RRM.tabelanutricional.ui.theme.TabelaNutricionalTheme.sizing
 import kotlinx.coroutines.launch
 
@@ -263,15 +261,3 @@ private fun HealthyRecipeNutrientBarList(
     }
 }
 
-@Preview
-@Composable
-private fun HealthyRecipeDetailsScreenPreview() {
-    TabelaNutricionalTheme {
-        HealthyRecipeDetailsScreen(
-            id = "",
-            uiState = HealthyRecipeDetailsUIState(),
-            onEvent = {},
-            onNavigateBack = {}
-        )
-    }
-}

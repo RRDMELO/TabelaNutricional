@@ -65,8 +65,8 @@ fun WellnessNewsCard(
                 .padding(vertical = sizing.md),
             text = wellnessNews.title,
             style = Typography.titleSmall,
-            minLines = 4,
-            maxLines = 4,
+            minLines = 3,
+            maxLines = 3,
             overflow = TextOverflow.Ellipsis
         )
         

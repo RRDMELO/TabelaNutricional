@@ -29,6 +29,7 @@ import androidx.compose.material3.AlertDialog
 import java.io.File
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.compose.ui.layout.ContentScale
@@ -55,9 +56,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.vector.VectorPainter
-import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -89,9 +87,9 @@ private fun ForkKnifeIcon(modifier: Modifier = Modifier, color: Color = Color.Wh
                 cap = StrokeCap.Round
             )
             // Dentes do garfo
-            val prong1X = forkX - width * 0.08f
+            val prong1X = forkX - width * 0.10f
             val prong2X = forkX
-            val prong3X = forkX + width * 0.08f
+            val prong3X = forkX + width * 0.10f
             val prongsTopY = height * 0.3f
             val prongsBottomY = height * 0.15f
 
@@ -133,8 +131,8 @@ private fun ForkKnifeIcon(modifier: Modifier = Modifier, color: Color = Color.Wh
             // Lâmina da faca
             drawLine(
                 color = color,
-                start = androidx.compose.ui.geometry.Offset(knifeX, height * 0.35f),
-                end = androidx.compose.ui.geometry.Offset(knifeX + width * 0.1f, height * 0.1f),
+                start = androidx.compose.ui.geometry.Offset(knifeX, height * 0.25f),
+                end = androidx.compose.ui.geometry.Offset(knifeX + width * 0.10f, height * 0.1f),
                 strokeWidth = 3f,
                 cap = StrokeCap.Round
             )
@@ -147,7 +145,9 @@ fun AuthScreen(
     onLoginSuccess: () -> Unit,
     viewModel: AuthViewModel = koinViewModel()
 ) {
+    Log.d("AuthScreen", "AuthScreen composable renderizado")
     val state by viewModel.state.collectAsState()
+    Log.d("AuthScreen", "Estado coletado: isLoggedIn=${state.isLoggedIn}, isRegistering=${state.isRegistering}")
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
@@ -668,3 +668,154 @@ fun createPhotoFile(context: Context): File {
     )
 }
 
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, showSystemUi = true, name = "Login Screen")
+@Composable
+fun AuthScreenLoginPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Header
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(LightGreen)
+                    .padding(vertical = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(PrimaryGreen, shape = RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .size(28.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ForkKnifeIcon(modifier = Modifier.size(24.dp), color = Color.White)
+                    }
+                    Text("NutriChef", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen, modifier = Modifier.padding(start = 8.dp))
+                }
+            }
+
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text("Entrar", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text("Acesse suas receitas saudáveis favoritas", fontSize = 13.sp, color = Color.Gray, modifier = Modifier.padding(bottom = 24.dp, top = 4.dp))
+
+                Text("E-mail", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black, modifier = Modifier.padding(bottom = 8.dp))
+                OutlinedTextField(value = "usuario@email.com", onValueChange = {}, placeholder = { Text("seu@mail.com", color = Color.LightGray) }, modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), shape = RoundedCornerShape(8.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryGreen, unfocusedBorderColor = Color.LightGray, focusedTextColor = Color.Black, unfocusedTextColor = Color.Black), singleLine = true, enabled = false)
+
+                Text("Senha", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black, modifier = Modifier.padding(bottom = 8.dp))
+                OutlinedTextField(value = "••••••••", onValueChange = {}, placeholder = { Text("Sua senha de acesso", color = Color.LightGray) }, modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), shape = RoundedCornerShape(8.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryGreen, unfocusedBorderColor = Color.LightGray, focusedTextColor = Color.Black, unfocusedTextColor = Color.Black), singleLine = true, enabled = false)
+
+                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = true, onCheckedChange = {}, colors = CheckboxDefaults.colors(checkedColor = PrimaryGreen), enabled = false)
+                    Text("Continuar conectado", fontSize = 14.sp, color = Color.Black, modifier = Modifier.padding(start = 8.dp))
+                }
+
+                Button(onClick = {}, modifier = Modifier.fillMaxWidth().height(50.dp), colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen), shape = RoundedCornerShape(8.dp)) {
+                    Text("Acessar", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Column(modifier = Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Text("Não tem uma conta? ", fontSize = 14.sp, color = Color.Gray)
+                    Text("Criar conta", fontSize = 14.sp, color = PrimaryGreen, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, showSystemUi = true, name = "Register Screen")
+@Composable
+fun AuthScreenRegisterPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Header
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(LightGreen)
+                    .padding(vertical = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(PrimaryGreen, shape = RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .size(28.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ForkKnifeIcon(modifier = Modifier.size(24.dp), color = Color.White)
+                    }
+                    Text("NutriChef", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen, modifier = Modifier.padding(start = 8.dp))
+                }
+            }
+
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text("Criar Conta", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                Text("Cadastre-se para acessar receitas saudáveis", fontSize = 13.sp, color = Color.Gray, modifier = Modifier.padding(bottom = 24.dp, top = 4.dp))
+
+                Column(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), horizontalAlignment = Alignment.Start) {
+                    Text("Foto de perfil", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black, modifier = Modifier.padding(bottom = 12.dp))
+                    Surface(modifier = Modifier.size(80.dp), shape = RoundedCornerShape(50), color = PrimaryGreen) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Icon(imageVector = Icons.Filled.CloudUpload, contentDescription = "Upload foto", tint = Color.White, modifier = Modifier.size(40.dp))
+                        }
+                    }
+                }
+
+                OutlinedTextField(value = "João Silva", onValueChange = {}, label = { Text("Nome") }, placeholder = { Text("Seu nome completo", color = Color.LightGray) }, modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), shape = RoundedCornerShape(8.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryGreen, unfocusedBorderColor = Color.LightGray, focusedTextColor = Color.Black, unfocusedTextColor = Color.Black), singleLine = true, enabled = false)
+
+                OutlinedTextField(value = "joao@email.com", onValueChange = {}, label = { Text("E-mail") }, placeholder = { Text("seu@mail.com", color = Color.LightGray) }, modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), shape = RoundedCornerShape(8.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryGreen, unfocusedBorderColor = Color.LightGray, focusedTextColor = Color.Black, unfocusedTextColor = Color.Black), singleLine = true, enabled = false)
+
+                OutlinedTextField(value = "••••••••", onValueChange = {}, label = { Text("Senha") }, placeholder = { Text("Sua senha de acesso", color = Color.LightGray) }, modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), shape = RoundedCornerShape(8.dp), colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = PrimaryGreen, unfocusedBorderColor = Color.LightGray, focusedTextColor = Color.Black, unfocusedTextColor = Color.Black), singleLine = true, enabled = false)
+
+                Button(onClick = {}, modifier = Modifier.fillMaxWidth().height(50.dp), colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen), shape = RoundedCornerShape(8.dp)) {
+                    Text("Acessar", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Column(modifier = Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Text("Já tem uma conta? ", fontSize = 14.sp, color = Color.Gray)
+                    Text("Entrar na conta", fontSize = 14.sp, color = PrimaryGreen, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿package com.rocketseat.RRM.tabelanutricional.ui.screen.nav_host
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,7 +19,6 @@ import com.rocketseat.RRM.tabelanutricional.ui.screen.healthy_recipe_details.Hea
 import com.rocketseat.RRM.tabelanutricional.ui.screen.home.HomeScreen
 import com.rocketseat.RRM.tabelanutricional.ui.screen.home.HomeViewModel
 import com.rocketseat.RRM.tabelanutricional.ui.screen.recipe_search.RecipeSearchScreen
-import android.util.Log
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -32,6 +32,8 @@ fun MainNavHost(modifier: Modifier = Modifier) {
 
     val healthyRecipeDetailsViewModel = koinViewModel<HealthyRecipeDetailsViewModel>()
     val healthyRecipeDetailsUIState by healthyRecipeDetailsViewModel.uiState.collectAsStateWithLifecycle()
+
+    Log.d("MainNavHost", "Iniciando NavHost com startDestination = Auth")
 
     NavHost(modifier = modifier, navController = navController, startDestination = UIRoute.Auth) {
         composable<UIRoute.Auth> {

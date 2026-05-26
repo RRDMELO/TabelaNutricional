@@ -62,7 +62,7 @@ class MainApplication: Application(), ImageLoaderFactory {
             try {
                 Log.d("MainApplication", "Starting database initialization...")
 
-                // Receitas de teste
+                // Receitas de teste com imagens locais dos drawables
                 val testRecipes = listOf(
                     SavedRecipe(
                         name = "Salada Verde",
@@ -71,7 +71,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 20f,
                         fiber = 5f,
                         mealType = "LUNCH",
-                        imageUrl = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_assorted_salad
                     ),
                     SavedRecipe(
                         name = "Peito de Frango Grelhado",
@@ -80,7 +80,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 0f,
                         fiber = 0f,
                         mealType = "LUNCH",
-                        imageUrl = "https://images.unsplash.com/photo-1598598588777-fc86f192c635?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_grilled_chicken
                     ),
                     SavedRecipe(
                         name = "Ovos Mexidos",
@@ -89,7 +89,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 2f,
                         fiber = 0f,
                         mealType = "BREAKFAST",
-                        imageUrl = "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_cheese_and_spinach_omelette
                     ),
                     SavedRecipe(
                         name = "Salada de Frutas",
@@ -98,7 +98,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 30f,
                         fiber = 4f,
                         mealType = "SNACK",
-                        imageUrl = "https://images.unsplash.com/photo-1584411694712-37a49eaba549?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_dish
                     ),
                     SavedRecipe(
                         name = "Arroz Integral com Feijão",
@@ -107,7 +107,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 50f,
                         fiber = 6f,
                         mealType = "LUNCH",
-                        imageUrl = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_dish_with_shadow
                     ),
                     SavedRecipe(
                         name = "Yogurte Natural",
@@ -116,7 +116,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 8f,
                         fiber = 0f,
                         mealType = "BREAKFAST",
-                        imageUrl = "https://images.unsplash.com/photo-1488477181946-6428a0291840?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_natural_yogurt_with_granola
                     ),
                     SavedRecipe(
                         name = "Brócolis Cozido",
@@ -125,7 +125,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 10f,
                         fiber = 3f,
                         mealType = "DINNER",
-                        imageUrl = "https://images.unsplash.com/photo-1584270565173-e12f52d1d4a7?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_dish
                     ),
                     SavedRecipe(
                         name = "Salmão Assado",
@@ -134,7 +134,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 0f,
                         fiber = 0f,
                         mealType = "DINNER",
-                        imageUrl = "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_grilled_chicken
                     ),
                     SavedRecipe(
                         name = "Smoothie de Banana",
@@ -143,7 +143,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 35f,
                         fiber = 3f,
                         mealType = "BREAKFAST",
-                        imageUrl = "https://images.unsplash.com/photo-1505252585461-04db1267ae5b?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_oatmeal_and_banana_pancakes
                     ),
                     SavedRecipe(
                         name = "Almêndoas",
@@ -152,7 +152,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                         carbohydrates = 7f,
                         fiber = 4f,
                         mealType = "SNACK",
-                        imageUrl = "https://images.unsplash.com/photo-1585518419759-fdb3e73990f4?w=400&h=400&fit=crop"
+                        imageResId = com.rocketseat.RRM.tabelanutricional.R.drawable.img_natural_yogurt_with_granola
                     )
                 )
 
@@ -162,7 +162,7 @@ class MainApplication: Application(), ImageLoaderFactory {
                 Log.d("MainApplication", "Inserting ${testRecipes.size} test recipes...")
                 testRecipes.forEach { recipe ->
                     dao.insertRecipe(recipe)
-                    Log.d("MainApplication", "Inserted: ${recipe.name}")
+                    Log.d("MainApplication", "Inserted: ${recipe.name} with imageResId: ${recipe.imageResId}")
                 }
 
                 Log.d("MainApplication", "Database initialization completed!")
