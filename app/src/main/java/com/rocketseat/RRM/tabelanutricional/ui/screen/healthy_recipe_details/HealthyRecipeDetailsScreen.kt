@@ -44,14 +44,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import com.rocketseat.RRM.tabelanutricional.R
 import com.rocketseat.RRM.tabelanutricional.data.model.HealthyRecipe
-import com.rocketseat.RRM.tabelanutricional.data.model.mock.mockHealthyRecipes
 import com.rocketseat.RRM.tabelanutricional.ui.components.BackButton
 import com.rocketseat.RRM.tabelanutricional.ui.components.LoveButton
 import com.rocketseat.RRM.tabelanutricional.ui.components.PrimaryButton
 import com.rocketseat.RRM.tabelanutricional.ui.components.healthy_recipe_details.HealthyRecipeMainInfo
 import com.rocketseat.RRM.tabelanutricional.ui.components.healthy_recipe_details.HealthyRecipeNutrientBar
 import com.rocketseat.RRM.tabelanutricional.ui.screen.healthy_recipe_more_details.HealthyRecipeMoreDetailsScreen
-import com.rocketseat.RRM.tabelanutricional.ui.screen.home.HomeUIState
 import com.rocketseat.RRM.tabelanutricional.ui.theme.Primary
 import com.rocketseat.RRM.tabelanutricional.ui.theme.TabelaNutricionalTheme.sizing
 import kotlinx.coroutines.launch

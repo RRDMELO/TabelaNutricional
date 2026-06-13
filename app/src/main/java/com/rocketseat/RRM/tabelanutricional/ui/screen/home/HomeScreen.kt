@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -55,11 +56,12 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (uiState.isLoading) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(modifier = Modifier.testTag("HOME_LOADING_CONTENT"))
         } else {
             if (uiState.homeContent != null) {
                 Column(
                     modifier = Modifier.padding(sizing.md)
+                        .testTag("HOME_CONTAINER_CONTENT")
                 ) {
                     WelcomeHeader(
                         userName = uiState.userName.orEmpty(),

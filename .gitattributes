@@ -1,0 +1,18 @@
+# Padronizar todos os arquivos de texto
+* text=auto
+
+# Sempre usar LF para arquivos de código e configuração
+*.java   text eol=lf
+*.kt     text eol=lf
+*.xml    text eol=lf
+*.gradle text eol=lf
+*.md     text eol=lf
+*.sh     text eol=lf
+
+# Arquivos binários não devem ser alterados
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.jar    binary
+*.keystore binary
