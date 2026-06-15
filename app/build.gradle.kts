@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.paparazzi)
 }
 
 android {
@@ -76,7 +77,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinxCoroutinesTest)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.kotlinxCoroutinesTest)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
